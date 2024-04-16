@@ -14,12 +14,8 @@ class MusicApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Music App',
-      color: const Color.fromARGB(255, 255, 255, 255),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 0, 109, 20),
-        ),
+        colorScheme: const ColorScheme.highContrastDark(),
         useMaterial3: true,
       ),
       home: const MusicHomePage(),
@@ -46,12 +42,11 @@ class _MusicHomePageState extends State<MusicHomePage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('Music App'),
-        backgroundColor: Color.fromARGB(255, 0, 109, 20),
+        backgroundColor: Color.fromARGB(255, 23, 21, 21),
       ),
       child: CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
-          backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+          backgroundColor: const Color.fromARGB(255, 23, 21, 21),
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
@@ -211,7 +206,7 @@ class _SongItemSection extends StatelessWidget {
     return ListTile(
         contentPadding: const EdgeInsets.only(left: 24, right: 8),
         leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(50),
           child: FadeInImage.assetNetwork(
             placeholder: 'assets/music.png',
             image: song.image,

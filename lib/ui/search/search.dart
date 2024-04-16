@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/data/model/song.dart';
+import 'package:music_app/data/source/source.dart';
+import 'package:music_app/ui/now_playing/playing.dart';
 
 class SearchBarApp extends StatefulWidget {
   const SearchBarApp({super.key});
@@ -8,65 +11,128 @@ class SearchBarApp extends StatefulWidget {
 }
 
 class _SearchBarAppState extends State<SearchBarApp> {
-  bool isDark = false;
+  TextEditingController controller = TextEditingController();
+  final List<Song> _searchResult = [];
+  List<Song> _song = [];
+  late DataSource _dataSource;
+
+  @override
+  void initState() {
+    super.initState();
+    _dataSource = RemoteDataSource();
+    loadData();
+  }
+
+  void loadData() async {
+    List<Song>? songs = await _dataSource.loadData();
+    if (songs != null) {
+      setState(() {
+        _song = songs;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = ThemeData(
-        useMaterial3: true,
-        brightness: isDark ? Brightness.dark : Brightness.light);
-
-    return MaterialApp(
-      theme: themeData,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SearchAnchor(
-              builder: (BuildContext context, SearchController controller) {
-            return SearchBar(
-              controller: controller,
-              padding: const MaterialStatePropertyAll<EdgeInsets>(
-                  EdgeInsets.symmetric(horizontal: 16.0)),
-              onTap: () {
-                controller.openView();
-              },
-              onChanged: (_) {
-                controller.openView();
-              },
-              leading: const Icon(Icons.search),
-              trailing: <Widget>[
-                Tooltip(
-                  message: 'Change brightness mode',
-                  child: IconButton(
-                    isSelected: isDark,
-                    onPressed: () {
-                      setState(() {
-                        isDark = !isDark;
-                      });
-                    },
-                    icon: const Icon(Icons.wb_sunny_outlined),
-                    selectedIcon: const Icon(Icons.brightness_2_outlined),
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 100,
+        backgroundColor: const Color.fromARGB(255, 23, 21, 21),
+        title: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.grey[500],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  style: const TextStyle(color: Colors.black),
+                  decoration: const InputDecoration(
+                    hintText: 'Search',
+                    hintStyle: TextStyle(color: Colors.black45),
+                    border: InputBorder.none,
+                    prefixIcon: Icon(Icons.search, color: Colors.black87),
                   ),
-                )
-              ],
-            );
-          }, suggestionsBuilder:
-                  (BuildContext context, SearchController controller) {
-            return List<ListTile>.generate(5, (int index) {
-              final String item = 'item $index';
-              return ListTile(
-                title: Text(item),
-                onTap: () {
-                  setState(() {
-                    controller.closeView(item);
-                  });
+                  onChanged: onSearchTextChanged,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.cancel, color: Colors.black87),
+                onPressed: () {
+                  // Xử lý khi người dùng nhấn vào biểu tượng hủy
+                  controller.clear();
+                  onSearchTextChanged('');
                 },
-              );
-            });
-          }),
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: Container(
+        color: const Color.fromARGB(255, 23, 21, 21),
+        child: ListView.builder(
+          itemCount: _searchResult.length,
+          itemBuilder: (context, i) {
+            return Card(
+              color: Colors.transparent,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ListTile(
+                  title: Text(
+                    _searchResult[i].title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  subtitle: Text(
+                    _searchResult[i].artist,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NowPlaying(
+                          playingSong: _searchResult[i],
+                          songs: _song,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
+  }
+
+  onSearchTextChanged(String text) {
+    _searchResult.clear();
+    if (text.isEmpty) {
+      setState(() {});
+      return;
+    }
+
+    for (var song in _song) {
+      if (song.title.toLowerCase().contains(text.toLowerCase()) ||
+          song.artist.toLowerCase().contains(text.toLowerCase())) {
+        _searchResult.add(song);
+      }
+    }
+
+    setState(() {});
   }
 }

@@ -107,10 +107,10 @@ class _NowPlayingPageState extends State<NowPlayingPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(180),
                   child: Image.network(
-                    height: 300,
-                    width: 340,
+                    height: 360,
+                    width: 360,
                     widget.playingSong.image,
                     fit: BoxFit.cover,
                   ),
