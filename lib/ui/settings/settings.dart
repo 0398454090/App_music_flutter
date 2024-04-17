@@ -1,63 +1,106 @@
 import 'package:flutter/material.dart';
 
-class SettingTab extends StatelessWidget {
+class SettingTab extends StatefulWidget {
   const SettingTab({super.key});
+
+  @override
+  State<SettingTab> createState() => _SettingTabState();
+}
+
+class _SettingTabState extends State<SettingTab> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+      ),
+      body: ListView(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('General'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const GeneralSettings()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.notifications),
+            title: const Text('Notifications'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const NotificationSettings()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text('Account'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AccountSettings()),
+              );
+            },
+          ),
+          // Thêm các mục cài đặt khác ở đây
+        ],
+      ),
+    );
+  }
+}
+
+class GeneralSettings extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
+  const GeneralSettings({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('General Settings'),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16.0),
-        children: [
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
-            onTap: () {
-              // Xử lý khi người dùng nhấn vào mục Profile
-            },
-            hoverColor: Colors.grey.withOpacity(0.5), // Hiệu ứng khi hover
-            tileColor: Colors
-                .transparent, // Để sử dụng hoverColor, cần đặt màu nền trong suốt
-          ),
-          ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text('Notifications'),
-            onTap: () {
-              // Xử lý khi người dùng nhấn vào mục Notifications
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.security),
-            title: Text('Security'),
-            onTap: () {
-              // Xử lý khi người dùng nhấn vào mục Security
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.language),
-            title: Text('Language'),
-            onTap: () {
-              // Xử lý khi người dùng nhấn vào mục Language
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.help),
-            title: Text('Help & Support'),
-            onTap: () {
-              // Xử lý khi người dùng nhấn vào mục Help & Support
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.info),
-            title: Text('About'),
-            onTap: () {
-              // Xử lý khi người dùng nhấn vào mục About
-            },
-          ),
-        ],
+      body: const Center(
+        child: Text('General settings content goes here'),
+      ),
+    );
+  }
+}
+
+class NotificationSettings extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
+  const NotificationSettings({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Notification Settings'),
+      ),
+      body: const Center(
+        child: Text('Notification settings content goes here'),
+      ),
+    );
+  }
+}
+
+class AccountSettings extends StatelessWidget {
+  const AccountSettings({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Account Settings'),
+      ),
+      body: const Center(
+        child: Text('Account settings content goes here'),
       ),
     );
   }
