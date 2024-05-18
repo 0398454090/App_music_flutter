@@ -4,7 +4,7 @@ import 'package:music_app/data/model/song.dart';
 class DiscoveryTab extends StatefulWidget {
   final List<Song>? songs;
 
-  const DiscoveryTab({Key? key, this.songs}) : super(key: key);
+  const DiscoveryTab({super.key, this.songs});
 
   @override
   State<DiscoveryTab> createState() => _DiscoveryTabState();
@@ -43,38 +43,6 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
           fontWeight: FontWeight.bold,
           color: color, // Sử dụng màu sắc được truyền vào
         ),
-      ),
-    );
-  }
-
-  Widget _buildSongWidget(Song song) {
-    return Container(
-      width: 120,
-      margin: const EdgeInsets.only(right: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              song.image,
-              height: 120,
-              width: 120,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            song.title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.white),
-          ),
-          Text(
-            song.artist,
-            style: const TextStyle(color: Colors.grey),
-          ),
-        ],
       ),
     );
   }
@@ -138,10 +106,7 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
 
   Widget _buildArtistWidget(Song song) {
     return GestureDetector(
-      onTap: () {
-        // Thêm hành động khi nhấp vào nghệ sĩ ở đây
-        print('Clicked on ${song.artist}');
-      },
+      onTap: () {},
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -184,10 +149,7 @@ class _DiscoveryTabState extends State<DiscoveryTab> {
             // Thêm một biểu tượng như biểu tượng phát nhạc hoặc biểu tượng xem chi tiết
             IconButton(
               icon: const Icon(Icons.play_arrow),
-              onPressed: () {
-                // Thêm hành động khi nhấp vào biểu tượng
-                print('Play music by ${song.artist}');
-              },
+              onPressed: () {},
             ),
           ],
         ),

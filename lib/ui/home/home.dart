@@ -15,7 +15,6 @@ class MusicApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        colorScheme: const ColorScheme.highContrastDark(),
         useMaterial3: true,
       ),
       home: const MusicHomePage(),
@@ -42,11 +41,13 @@ class _MusicHomePageState extends State<MusicHomePage> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        backgroundColor: Color.fromARGB(255, 23, 21, 21),
+        middle: Text(
+          'Music App',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       child: CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
-          backgroundColor: const Color.fromARGB(255, 23, 21, 21),
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
@@ -162,7 +163,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             child: Container(
                 height: 400,
-                color: Colors.blueGrey,
+                color: Colors.grey,
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
